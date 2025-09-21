@@ -34,7 +34,23 @@
 </head>
 <body> 
   <script>
-  window.flutterWebRenderer = "html";
+    function isLowEndDevice() {
+      const cores = navigator.hardwareConcurrency || 2; // عدد الأنوية
+      const ram = navigator.deviceMemory || 2;          // الرام بالـ GB
+      return (cores <= 4 || ram <= 4);
+    }
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    if (isLowEndDevice() || isMobile()) {
+      // موبايل أو جهاز ضعيف → HTML Renderer
+      window.flutterWebRenderer = "html";
+    } else {
+      // كمبيوتر أو موبايل قوي → CanvasKit
+      window.flutterWebRenderer = "canvaskit";
+    }
   </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
