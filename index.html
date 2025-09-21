@@ -33,35 +33,9 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body> 
-  <script>
-   function getBestRenderer() {
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    // معلومات عن قوة الجهاز
-    const cores = navigator.hardwareConcurrency || 2; // عدد الـ CPU Cores
-    const memory = navigator.deviceMemory || 2;      // RAM بالجـيجا تقريباً
-
-    // اختبار سرعة الإنترنت (mbps تقريبية)
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const downlink = connection ? connection.downlink : 10; // لو مش متوفر، نخليها 10 (يعني نت سريع)
-
-    // الشروط
-    if (isMobile) {
-      // موبايل → لو ضعيف (RAM أقل من 3 أو CPU أقل من 4 أو سرعة نت أقل من 2) → HTML
-      if (memory < 3 || cores < 4 || downlink < 2) {
-        return "html";
-      } else {
-        return "canvaskit";
-      }
-    } else {
-      // لابتوب/ديسكتوب → الافتراضي HTML (أسرع)
-      return "html";
-    }
-   }
-
-    window.flutterWebRenderer = getBestRenderer();
-    console.log("Renderer selected:", window.flutterWebRenderer);
-  </script>
+   <script>
+  window.flutterWebRenderer = "html";
+   </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
