@@ -35,8 +35,8 @@
 <body> 
   <script>
     function isLowEndDevice() {
-      const cores = navigator.hardwareConcurrency || 2; // عدد الأنوية
-      const ram = navigator.deviceMemory || 2;          // الرام بالـ GB
+      const cores = navigator.hardwareConcurrency || 2;
+      const ram = navigator.deviceMemory || 2;
       return (cores <= 4 || ram <= 4);
     }
 
@@ -44,11 +44,14 @@
       return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
-    if (isLowEndDevice() || isMobile()) {
-      // موبايل أو جهاز ضعيف → HTML Renderer
+    if (isMobile()) {
+      // على الموبايل خليه CanvasKit لأنه أحياناً أسرع على Chrome Mobile
+      window.flutterWebRenderer = "canvaskit";
+    } else if (isLowEndDevice()) {
+      // لابتوب ضعيف → HTML
       window.flutterWebRenderer = "html";
     } else {
-      // كمبيوتر أو موبايل قوي → CanvasKit
+      // لابتوب قوي → CanvasKit
       window.flutterWebRenderer = "canvaskit";
     }
   </script>
